@@ -3,14 +3,21 @@ name: Auto Merge Owner
 on: [push, pull_request]
 
 jobs:
-  merge:
+  check:
     runs-on: ubuntu-latest
-    if: github.actor == 'automate6500' || github.actor == 'octocat'
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    - uses: cclauss/GitHub-Action-for-pylint@master
+      with:
+        args: "pip install -r requirements.txt ; pylint app.py"
+  merge:
+    runs-on: ubuntu-latest    
+    if: github.actor == 'automate6500' || github.actor == 'octocat'
+    needs: [check]
+    steps:
+    - uses: hmarr/auto-approve-action@v2.0.0
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+    - uses: managedkaos/merge-pull-request@master
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
