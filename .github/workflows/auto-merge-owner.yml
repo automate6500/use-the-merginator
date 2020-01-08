@@ -1,17 +1,22 @@
 name: Auto Merge Owner
 
-on: 
+on:
   push:
   pull_request:
     types: [opened]
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
+  lint:
     if: github.actor == 'automate6500' || github.actor == 'octocat'
+
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-python@v1
       with:
         python-version: '3.8'
-    - run: pip install -r requirements.txt
+    - run: |
+        pip install -r requirements.txt
+        flake8 --ignore=E501,E231 *.py tests/*.py
+        pylint --errors-only --disable=C0301 --disable=C0326 *.py tests/*.py
