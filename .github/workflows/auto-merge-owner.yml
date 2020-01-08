@@ -29,3 +29,6 @@ jobs:
     - uses: hmarr/auto-approve-action@v2.0.0
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
+    - uses: managedkaos/merge-pull-request@master
+      env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
