@@ -7,17 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: cclauss/GitHub-Action-for-pylint@master
+    - uses: actions/setup-python@v1
       with:
-        args: "pip install -r requirements.txt ; pylint app.py"
-  merge:
-    runs-on: ubuntu-latest    
-    if: github.actor == 'automate6500' || github.actor == 'octocat'
-    needs: [check]
-    steps:
-    - uses: hmarr/auto-approve-action@v2.0.0
-      with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
-    - uses: managedkaos/merge-pull-request@master
-      with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
+        python-version: '3.8'
