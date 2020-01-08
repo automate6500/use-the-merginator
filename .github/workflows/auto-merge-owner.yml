@@ -8,7 +8,7 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    if: github.actor == 'automate6500' || github.actor == octocat
+    if: github.actor == 'automate6500' || github.actor == 'octocat'
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-python@v1
